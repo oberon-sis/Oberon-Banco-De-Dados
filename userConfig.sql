@@ -1,11 +1,11 @@
-DROP USER IF EXISTS upfinity_select;
-CREATE USER 'upfinity_select'@'%' IDENTIFIED BY 'Urubu100$';
-GRANT ALL PRIVILEGES ON db.* TO 'upfinity_select'@'%';
+DROP USER IF EXISTS oberon_select;
+CREATE USER 'oberon_select'@'%' IDENTIFIED BY 'Urubu100$';
+GRANT ALL PRIVILEGES ON db.* TO 'oberon_select'@'%';
 FLUSH PRIVILEGES;
 
-DROP USER IF EXISTS upfinity_crud;
-CREATE USER 'upfinity_crud'@'%' IDENTIFIED BY 'Urubu100$';
-GRANT ALL PRIVILEGES ON db.* TO 'upfinity_crud'@'%';
+DROP USER IF EXISTS oberon_crud;
+CREATE USER 'oberon_crud'@'%' IDENTIFIED BY 'Urubu100$';
+GRANT ALL PRIVILEGES ON db.* TO 'oberon_crud'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS dev;
