@@ -1,70 +1,79 @@
-USE upfinity;
+USE bdOberon;
 
+-- =========================
+-- Inserts Mocados
+-- =========================
 
--- INSERINDO ENDEREÇOS
-INSERT INTO Endereco (cep, uf, cidade, logradouro, bairro, complemento, latitude, longitude, numero) VALUES
-("01001-001", "SP", "São Paulo", "Rua Direita", "Sé", "Prédio A", "-23.5492", "-46.6346", 123),
-("21040-360", "RJ", "Rio de Janeiro", "Rua da Praia", "Bonsucesso", "Loja 2", "-22.8687", "-43.2561", 45),
-("30110-008", "MG", "Belo Horizonte", "Rua da Bahia", "Centro", "Sala 101", "-19.9208", "-43.9392", 789),
-("70070-000", "DF", "Brasília", "Eixo Monumental", "Asa Sul", "Bloco B", "-15.7958", "-47.8824", 10),
-("90030-001", "RS", "Porto Alegre", "Rua dos Andradas", "Centro Histórico", "Cobertura", "-30.0335", "-51.2291", 567);
+INSERT INTO Empresa (RazaoSocial, Cnpj) VALUES
+('TechVision Segurança', '12345678000199'),
+('InovaCFTV Soluções', '98765432000155'),
+('AlphaMonitor', '10101010101010'),
+('BetaCFTV', '20202020202020'),
+('GammaSeg', '30303030303030'),
+('DeltaTech', '40404040404040');
 
--- INSERINDO EMPRESAS (2 empresas)
-INSERT INTO Empresa (razaoSocial, cnpj) VALUES
-("Tecno Soluções S.A.", "11223344000155"),
-("Rede de ATMs Inteligentes Ltda.", "55667788000111");
+INSERT INTO Funcionario (Nome, Cpf, Email, FkEmpresa) VALUES
+('Ana Souza', '12345678901', 'ana@techvision.com', 1),
+('Carlos Lima', '98765432100', 'carlos@inovacftv.com', 2),
+('Paula Mendes', '11111111111', 'paula@alphamonitor.com', 3),
+('Ricardo Farias', '22222222222', 'ricardo@betacftv.com', 4),
+('Juliana Pires', '33333333333', 'juliana@gammaseg.com', 5),
+('Felipe Gomes', '44444444444', 'felipe@deltatech.com', 6);
 
--- INSERINDO TIPOS DE USUÁRIO
-INSERT INTO TipoUsuario (tipo, permissoes) VALUES
-("Admin", "CRUD_TOTAL"),
-("Operador", "CRU_LIMITEDO"),
-("Visualizador", "READ_ONLY");
+INSERT INTO NivelAcesso (TipoAcesso, Permissoes, FkFuncionario) VALUES
+('Administrador', 'Gerenciar todas as máquinas e usuários', 1),
+('Operador', 'Monitorar registros e alertas', 2),
+('Supervisor', 'Supervisionar operadores', 3),
+('Técnico', 'Manutenção e configuração', 4),
+('Auditor', 'Consultar logs e alertas', 5),
+('Analista', 'Analisar métricas e desempenho', 6);
 
--- INSERINDO USUÁRIOS (10 usuários)
-INSERT INTO Usuario (fkEmpresa, fkTipoUsuario, nomeUsuario, email, senha, telefone) VALUES
-(1, 1, "Ana Paula", "ana.paula@tecnosolucoes.com.br", "senha_ana", "11987654321"),
-(1, 2, "Bruno Santos", "bruno.santos@tecnosolucoes.com.br", "senha_bruno", "11987654322"),
-(1, 3, "Carla Lima", "carla.lima@tecnosolucoes.com.br", "senha_carla", "11987654323"),
-(2, 1, "Daniel Costa", "daniel.costa@redeatms.com.br", "senha_daniel", "21912345678"),
-(2, 2, "Elaine Pereira", "elaine.pereira@redeatms.com.br", "senha_elaine", "21912345679"),
-(2, 2, "Fabio Mendes", "fabio.mendes@redeatms.com.br", "senha_fabio", "21912345680"),
-(2, 3, "Gabriela Rocha", "gabriela.rocha@redeatms.com.br", "senha_gabriela", "21912345681"),
-(1, 2, "Helena Alves", "helena.alves@tecnosolucoes.com.br", "senha_helena", "11987654324"),
-(1, 3, "Ivan Dias", "ivan.dias@tecnosolucoes.com.br", "senha_ivan", "11987654325"),
-(2, 2, "Julia Barros", "julia.barros@redeatms.com.br", "senha_julia", "21912345682");
+INSERT INTO Maquina (Nome, EnderecoIp, FkEmpresa) VALUES
+('Servidor CFTV 01', '192.168.0.10', 1),
+('Servidor CFTV 02', '192.168.0.11', 2),
+('Servidor CFTV 03', '192.168.0.12', 3),
+('Servidor CFTV 04', '192.168.0.13', 4),
+('Servidor CFTV 05', '192.168.0.14', 5),
+('Servidor CFTV 06', '192.168.0.15', 6);
 
--- INSERINDO ATMS (3 ATMs)
-INSERT INTO Atm (fkEmpresa, fkEndereco, hostname, modelo, ip, macAddress, sistemaOperacional, statusAtm) VALUES
-(1, 3, "atm-ts-01", "Model-A", "192.168.1.1", "00:1A:2B:3C:4D:5E", "Linux", "Ativo"),
-(1, 4, "atm-ts-02", "Model-B", "192.168.1.2", "00:1A:2B:3C:4D:5F", "Windows", "Ativo"),
-(2, 5, "atm-ra-01", "Model-C", "192.168.2.1", "A1:B2:C3:D4:E5:F6", "Linux", "Ativo");
--- INSERINDO COMPONENTES
-INSERT INTO Componente (tipo, unidadeMedida, funcaoMonitorada) VALUES
-("CPU", "%", "CPU_porcentagem"),
-("Memória", "%", "RAM_percentual"),
-("Disco", "%", "DISK_percentual"),
-("CPU", "bits", "CPU_frequencia"),
-("Memória", "GB", "RAM_disponivel");
+INSERT INTO Componente (TipoComponente, UnidadeMedida, FuncaoMonitorar) VALUES
+('CPU', '%', 'Uso de processamento'),
+('RAM', 'MB', 'Consumo de memória'),
+('Disco', 'GB', 'Espaço disponível'),
+('Temperatura', '°C', 'Controle térmico'),
+('GPU', '%', 'Uso de processamento gráfico'),
+('PlacaRede', 'Mbps', 'Taxa de transmissão de dados');
 
--- INSERINDO ATMCOMPONENTES (relações entre ATMs e Componentes)
-INSERT INTO AtmComponente (fkAtm, fkComponente, capacidade) VALUES
-(1, 1, "3.8 GHz"), -- CPU para o ATM-1
-(1, 2, "16 GB"),   -- Memória para o ATM-1
-(1, 3, "512 GB"),  -- Disco para o ATM-1
-(1, 4, "ASUS Z370"),-- Placa-mãe para o ATM-1
-(2, 1, "3.2 GHz"), -- CPU para o ATM-2
-(2, 2, "8 GB"),    -- Memória para o ATM-2
-(2, 3, "256 GB"),  -- Disco para o ATM-2
-(2, 5, "600W"),    -- Fonte para o ATM-2
-(3, 1, "3.5 GHz"), -- CPU para o ATM-3
-(3, 2, "16 GB");   -- Memória para o ATM-3
+INSERT INTO MaquinaComponente (Capacidade, FkMaquina, FkComponente) VALUES
+(100, 1, 1),   -- CPU Servidor 1
+(16000, 1, 2), -- RAM Servidor 1
+(500, 2, 3),   -- Disco Servidor 2
+(85, 2, 4),    -- Temp Servidor 2
+(90, 3, 5),    -- GPU Servidor 3
+(1000, 3, 6);  -- PlacaRede Servidor 3
 
--- INSERINDO PARÂMETROS
-INSERT INTO Parametro (fkAtmComponente, limite) VALUES
-(1, "90"),  -- Limite de uso de CPU para o ATM-1
-(2, "95"),  -- Limite de uso de RAM para o ATM-1
-(3, "98"),  -- Limite de uso de Disco para o ATM-1
-(4, "65"), -- Limite de temperatura da Placa-mãe para o ATM-1
-(5, "85"),  -- Limite de uso de CPU para o ATM-2
-(6, "90"),  -- Limite de uso de RAM para o ATM-2
-(7, "95");  -- Limite de uso de Disco para o ATM-2
+INSERT INTO Parametro (FkMaquinaComponente, Limite) VALUES
+(1, 85),   -- CPU limite Servidor 1
+(2, 14000),-- RAM limite Servidor 1
+(3, 450),  -- Disco limite Servidor 2
+(4, 70),   -- Temperatura limite Servidor 2
+(5, 95),   -- GPU limite Servidor 3
+(6, 900);  -- PlacaRede limite Servidor 3
+
+INSERT INTO Registro (Valor, Horario, FkMaquinaComponente) VALUES
+(75, '2025-09-21 08:00:00', 1),
+(12000, '2025-09-21 08:10:00', 2),
+(400, '2025-09-21 08:20:00', 3),
+(68, '2025-09-21 08:30:00', 4),
+(92, '2025-09-21 08:40:00', 5),
+(850, '2025-09-21 08:50:00', 6);
+
+INSERT INTO Alerta (Descricao, Nivel, ValorInicial, ValorFinal, HorarioInicio, HorarioFinal, FkMaquinaComponente) VALUES
+('CPU acima do limite', 'Crítico', 85, 95, '2025-09-21 09:00:00', '2025-09-21 09:15:00', 1),
+('RAM alta', 'Alto', 14000, 14500, '2025-09-21 09:10:00', '2025-09-21 09:30:00', 2),
+('Disco quase cheio', 'Alto', 450, 470, '2025-09-21 09:20:00', '2025-09-21 09:40:00', 3),
+('Temperatura elevada', 'Crítico', 70, 75, '2025-09-21 09:30:00', '2025-09-21 09:50:00', 4),
+('GPU sobrecarregada', 'Alto', 95, 100, '2025-09-21 09:40:00', '2025-09-21 10:00:00', 5),
+('Placa de Rede em pico', 'Médio', 900, 950, '2025-09-21 09:50:00', '2025-09-21 10:10:00', 6);
+ 'Alto', 70, 72, '2025-09-21 08:00:00', '2025-09-21 08:30:00', 4);
+
