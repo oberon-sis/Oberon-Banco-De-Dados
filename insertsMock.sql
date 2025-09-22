@@ -1,8 +1,8 @@
 USE bdOberon;
 
--- =========================
+-- ==========================
 -- Inserts Mocados
--- =========================
+-- ==========================
 
 INSERT INTO Empresa (RazaoSocial, Cnpj) VALUES
 ('TechVision Segurança', '12345678000199'),
