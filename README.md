@@ -17,9 +17,10 @@ Este repositório contém o esquema do banco de dados utilizado no projeto **Upf
 ## 📂 Estrutura do Banco  
 
 - **Tabelas principais**:
-  - `Cliente`: Cadastro dos usuarios clientes.
-  - `Endereco`: Cadastro dos endereços referentes ao usuario cliente.
-  - `Sensor`: Registra os sensores instalados e suas localizações.
+  - `maquina`: Registra as máquinas de CFTV monitoradas, incluindo informações sobre o status, modelo e sistema operacional.
+  - `componente`: Define os tipos de componentes de hardware (CPU, RAM, Disco, etc.) a serem monitorados nas máquinas.
+  - `maquinaComponente`: Relaciona as máquinas aos seus componentes específicos, detalhando características como capacidade e núcleos.
+  - `alerta`: Registra os alertas gerados quando um parâmetro ultrapassa os limites definidos, indicando falhas ou anomalias.
 
 
 ## 🚀 Tecnologias  
