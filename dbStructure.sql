@@ -21,6 +21,8 @@ CREATE TABLE Funcionario (
     cpf CHAR(11) UNIQUE NOT NULL,
     email VARCHAR(45) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
+    tokenReset VARCHAR(100),
+    tokenExpira DATETIME,
     fkTipoUsuario INT,
     fkEmpresa INT,
     FOREIGN KEY (fkTipoUsuario) REFERENCES TipoUsuario(idTipoUsuario),
