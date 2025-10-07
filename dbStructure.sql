@@ -1,4 +1,3 @@
-DROP DATABASE if exists bdOberon;
 CREATE DATABASE bdOberon;
 
 USE bdOberon;
@@ -32,10 +31,10 @@ CREATE TABLE Funcionario (
 CREATE TABLE Maquina (
     idMaquina INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45) NOT NULL,
-    hostname VARCHAR(45) NOT NULL,
+    hostname VARCHAR(45),
     modelo VARCHAR(45),
-    macAddress VARCHAR(45),
-    ip VARCHAR(45) NOT NULL,
+    macAddress VARCHAR(45) UNIQUE,
+    ip VARCHAR(45),
     sistemaOperacional VARCHAR(45),
     status VARCHAR(45),
     fkEmpresa INT,
@@ -57,17 +56,25 @@ CREATE TABLE MaquinaComponente (
     tipoDisco VARCHAR(45),
     fkMaquina INT,
     fkComponente INT,
+    origemParametro VARCHAR(45), 
     FOREIGN KEY (fkMaquina) REFERENCES Maquina(idMaquina),
     FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente)
 );
 
-CREATE TABLE Parametro (
+CREATE TABLE ParametroEspecifico (
     idParametro INT PRIMARY KEY AUTO_INCREMENT,
     limite FLOAT NOT NULL,
-    fkEmpresa INT,
-    fkMaquinaComponente INT,
-    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa),
+    fkMaquinaComponente INT UNIQUE,
     FOREIGN KEY (fkMaquinaComponente) REFERENCES MaquinaComponente(idMaquinaComponente)
+);
+
+CREATE TABLE ParametroPadrao (
+    limite FLOAT NOT NULL,
+    fkEmpresa INT NOT NULL,
+    fkComponente INT NOT NULL, 
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa),
+    FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente),
+    PRIMARY KEY (fkEmpresa, fkComponente) 
 );
 
 CREATE TABLE Registro (
@@ -94,7 +101,7 @@ CREATE TABLE Alerta (
 
 CREATE OR REPLACE VIEW viewDadosMaquina AS
 SELECT 
-	m.idMaquina,
+    m.idMaquina,
     m.nome,
     m.hostname,
     m.modelo,
@@ -103,9 +110,25 @@ SELECT
     e.razaoSocial,
     m.macAddress
 FROM Maquina as m 
-JOiN Empresa as e 
+JOIN Empresa as e 
 ON m.fkEmpresa = e.idEmpresa;
 
+
+
+INSERT INTO TipoUsuario(tipoUsuario, permissoes) VALUES
+('Colaborador', 'editar_info;ver_paineis;ver_alertas;ver_suporte'),
+('Administrador', 'editar_info;ver_paineis;ver_alertas;ver_suporte;gerir_usuarios;gerir_maquinas'),
+('Gestor', 'editar_info;ver_paineis;ver_alertas;ver_suporte;gerir_usuarios;gerir_maquinas;gerir_empresa');
+
+INSERT INTO Componente (tipoComponente, unidadeMedida, funcaoMonitorar) VALUES
+('CPU', '%', 'cpu porcentagem'),
+('RAM', '%', 'ram porcentagem'),
+('DISCO', '%', 'disco porcentagem'),
+('REDE', 'Mbps', 'rede taxa'),
+('GPU', '%', 'Uso de processamento gráfico');
+
+
+/*
 CREATE OR REPLACE VIEW ViewParametrosMaquina AS 
 SELECT
     MC.idMaquinaComponente,
@@ -137,4 +160,4 @@ LEFT JOIN
     AND PE.fkEmpresa IS NULL
 LEFT JOIN
     Parametro AS PP ON PP.fkEmpresa = M.fkEmpresa
-    AND PP.fkMaquinaComponente IS NULL;
+    AND PP.fkMaquinaComponente IS NULL;*/
