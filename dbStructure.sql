@@ -126,38 +126,27 @@ INSERT INTO Componente (tipoComponente, unidadeMedida, funcaoMonitorar) VALUES
 ('DISCO', '%', 'disco porcentagem'),
 ('REDE', 'Mbps', 'rede taxa'),
 ('GPU', '%', 'Uso de processamento gráfico');
-
-
-/*
-CREATE OR REPLACE VIEW ViewParametrosMaquina AS 
+    
+CREATE OR REPLACE VIEW ViewParametrosMaquina AS
 SELECT
-    MC.idMaquinaComponente,
-    C.funcaoMonitorar,
-    C.unidadeMedida,
-	COALESCE(PE.limite, PP.limite) AS limite_aplicado,
-
-    CASE C.tipoComponente
-        WHEN 'CPU' THEN CAST(MC.nucleosThreads AS CHAR)
-        WHEN 'RAM' THEN CONCAT(CAST(MC.capacidadeGb AS CHAR), ' GB')
-        WHEN 'Disco Duro' THEN CONCAT(CAST(MC.capacidadeGb AS CHAR), ' GB (', MC.tipoDisco, ')')
-        ELSE 'N/A'
-    END AS atributo_componente,
-    CASE
-        WHEN PE.limite IS NOT NULL THEN 'Específico'
-        WHEN PP.limite IS NOT NULL THEN 'Padrão'
-        ELSE 'Não Definido'
-    END AS tipo_parametro_usado,
-    C.tipoComponente,
-	M.idMaquina
-FROM
-    Maquina AS M
-JOIN
-    MaquinaComponente AS MC ON M.idMaquina = MC.fkMaquina
-JOIN
-    Componente AS C ON MC.fkComponente = C.idComponente
-LEFT JOIN
-    Parametro AS PE ON PE.fkMaquinaComponente = MC.idMaquinaComponente
-    AND PE.fkEmpresa IS NULL
-LEFT JOIN
-    Parametro AS PP ON PP.fkEmpresa = M.fkEmpresa
-    AND PP.fkMaquinaComponente IS NULL;*/
+    mc.idMaquinaComponente,
+    c.funcaoMonitorar AS tipo,
+    c.unidadeMedida AS unidade,
+    mc.fkMaquina AS idMaquina,
+    mc.origemParametro,
+    c.idComponente AS fkComponente,
+    COALESCE(
+        CASE
+            WHEN mc.origemParametro = 'ESPECIFICO' THEN pe.limite
+            ELSE NULL
+        END,
+        CASE 
+            WHEN mc.origemParametro = 'EMPRESA' THEN pp.limite
+            ELSE NULL
+        END
+    ) AS limite_base_db
+FROM MaquinaComponente mc
+JOIN Componente c ON mc.fkComponente = c.idComponente
+JOIN Maquina m ON mc.fkMaquina = m.idMaquina
+LEFT JOIN ParametroEspecifico pe ON mc.idMaquinaComponente = pe.fkMaquinaComponente
+LEFT JOIN ParametroPadrao pp ON m.fkEmpresa = pp.fkEmpresa AND mc.fkComponente = pp.fkComponente;
