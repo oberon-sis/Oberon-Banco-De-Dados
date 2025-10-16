@@ -1,6 +1,6 @@
 #!/bin/bash
 echo ''
-echo '----Script de criação do banco de dados da UPFINITY----'
+echo '----Script de criação do banco de dados da OBERON----'
 echo ''
 
 echo ''
@@ -21,6 +21,13 @@ echo ''
 read -p 'Executar inserts de insertsMock.sql? (S/N)' RESPOSTA 
 if [ $RESPOSTA = 'S' ]; then INSERTS=$(cat insertsMock.sql); echo 'Criando insertsMock.sql ...'
 else echo 'Execução de insertsMock.sql cancelada'
+fi
+echo ''
+
+echo ''
+read -p 'Executar inserts de triggersAuditoria.sql? (S/N)' RESPOSTA 
+if [ $RESPOSTA = 'S' ]; then INSERTS=$(cat triggersAuditoria.sql); echo 'Criando triggersAuditoria.sql ...'
+else echo 'Execução de triggersAuditoria.sql cancelada'
 fi
 echo ''
 
