@@ -20,11 +20,13 @@ Este documento detalha o esquema final do banco de dados Oberon, focado em alta 
 #### 1.1.2 Diagrama
 ##### Diagrama Sem Campos de Referência
 
-<img src="assets/Modelagem_Sem_Campos_De_Referencia.png" alt="Diagrama de Entidade-Relacionamento">
+<img src="./assets/Modelagem_Sem_Campos_De_Referencia.png" alt="Diagrama de Entidade-Relacionamento">
+
+
 
 ##### Diagrama Com Campos de Referência
 
-<img src="assets/Modelagem_Com_Campos_De_Referencia.png" alt="Diagrama de Entidade-Relacionamento">
+<img src="./assets/Modelagem_Com_Campos_De_Referencia.png" alt="Diagrama de Entidade-Relacionamento">
 
 ### 1.2. Domínios Principais
 
