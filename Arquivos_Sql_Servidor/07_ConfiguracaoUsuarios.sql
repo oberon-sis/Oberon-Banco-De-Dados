@@ -9,7 +9,7 @@ GRANT INSERT ON bdOberon.* TO 'oberon_insert'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS servidorOberon;
-CREATE USER 'oberon_servidor'@'%' IDENTIFIED BY 'Urubu100';
+CREATE USER 'servidorOberon'@'%' IDENTIFIED BY 'Urubu100';
 GRANT SELECT, INSERT, UPDATE, DELETE ON bdOberon.* TO 'servidorOberon'@'%';
 
 FLUSH PRIVILEGES;
@@ -57,3 +57,40 @@ DROP USER IF EXISTS nathan_oberon;
 CREATE USER 'nathan_oberon'@'%' IDENTIFIED BY 'Urubu100$';
 GRANT ALL PRIVILEGES ON bdOberon.* TO 'jhoel_oberon'@'%';
 FLUSH PRIVILEGES;
+
+/*USUARIO PARA OS AGENTES DE MONIOTAMENTO*/
+
+-- PASSO 1: CRIAR O NOVO USUÁRIO
+-- Permite que o usuário se conecte a partir de QUALQUER host ('%')
+CREATE USER 'oberon_agente_monitoramento'@'%' 
+IDENTIFIED BY 'oberon_agente_monitoramento_2025';
+
+-- PASSO 2: CONCEDER PERMISSÕES DE INSERÇÃO (INSERT)
+-- Tabelas: Alerta, Incidente, LogDetalheEvento, LogSistema, Registro
+GRANT INSERT ON bdOberon.Alerta TO 'oberon_agente_monitoramento'@'%';
+GRANT INSERT ON bdOberon.Incidente TO 'oberon_agente_monitoramento'@'%';
+GRANT INSERT ON bdOberon.LogDetalheEvento TO 'oberon_agente_monitoramento'@'%';
+GRANT INSERT ON bdOberon.LogSistema TO 'oberon_agente_monitoramento'@'%';
+GRANT INSERT ON bdOberon.Registro TO 'oberon_agente_monitoramento'@'%';
+
+
+-- PASSO 3: CONCEDER PERMISSÕES DE ATUALIZAÇÃO (UPDATE)
+-- Tabelas: Componente, LogSistema, Maquina
+GRANT UPDATE ON bdOberon.Componente TO 'oberon_agente_monitoramento'@'%';
+GRANT UPDATE ON bdOberon.LogSistema TO 'oberon_agente_monitoramento'@'%';
+GRANT UPDATE ON bdOberon.Maquina TO 'oberon_agente_monitoramento'@'%';
+
+
+-- PASSO 4: CONCEDER PERMISSÕES DE LEITURA (SELECT)
+-- Tabelas/Views: LogSistema, vw_DadosMaquina, vwParametrosComponente
+GRANT SELECT ON bdOberon.LogSistema TO 'oberon_agente_monitoramento'@'%';
+GRANT SELECT ON bdOberon.vw_DadosMaquina TO 'oberon_agente_monitoramento'@'%';
+GRANT SELECT ON bdOberon.vw_ParametrosComponente TO 'oberon_agente_monitoramento'@'%';
+GRANT SELECT ON bdOberon.Maquina TO 'oberon_agente_monitoramento'@'%';
+GRANT SELECT ON bdOberon.vw_componentesparaatualizar TO 'oberon_agente_monitoramento'@'%';
+GRANT SELECT ON bdOberon.Componente TO 'oberon_agente_monitoramento'@'%';
+
+
+-- PASSO 5: APLICAR AS MUDANÇAS
+FLUSH PRIVILEGES;
+
