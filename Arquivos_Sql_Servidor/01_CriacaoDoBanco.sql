@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS Maquina (
     fkEmpresa INT NOT NULL,
     nome VARCHAR(45) NOT NULL,
     macAddress VARCHAR(45) NOT NULL,
-    status ENUM('Online', 'Offline', 'Pendente', 'Manutencao') NOT NULL DEFAULT 'Pendente',
+    status ENUM('Online', 'Offline', 'Pendente', 'Manutenção') NOT NULL DEFAULT 'Pendente',
     ip VARCHAR(45) NULL,
     hostname VARCHAR(45) NULL,
     modelo VARCHAR(45) NULL,
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS Parametro (
     fkEmpresa INT NULL,
     limite FLOAT NOT NULL,
     identificador ENUM("Atenção", "Alerta" ,"Critico") NOT NULL,
-    origemParametro ENUM("EMPRESA", "OBERON", "ESPECIFICO")NOT NULL,
+    origemParametro ENUM("EMPRESA", "OBERON", "ESPECÍFICO")NOT NULL,
     dataCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dataEdicao DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
     fkCriadoPor INT NULL,
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS Alerta (
     fkRegistro INT NOT NULL,
     fkParametro INT NOT NULL,
     descricao VARCHAR(100) NOT NULL,
-    nivel ENUM('ATENCAO', 'ALERTA', 'CRITICO') NOT NULL DEFAULT 'ATENCAO',
+    nivel ENUM('ATENÇÃO', 'ALERTA', 'CRITICO') NOT NULL DEFAULT 'ATENÇÃO',
 
     -- ALTERADO: Ao deletar um Registro, o Alerta correspondente deve ser deletado (CASCADE)
     CONSTRAINT fk_ALERTA_REGISTRO FOREIGN KEY (fkRegistro)
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS Incidente (
     descricao VARCHAR(45) NOT NULL,
     categoria ENUM('Hardware', 'Software', 'Rede', 'Seguranca', 'Performance') NOT NULL,
     status ENUM('Aberto', 'EmAndamento', 'Resolvido', 'Fechado', 'Rejeitado') NOT NULL DEFAULT 'Aberto',
-    severidade ENUM('Baixa', 'Media', 'Alta', 'Critica') NOT NULL,
+    severidade ENUM('Baixa', ',Média', 'Alta', 'Critica') NOT NULL,
     dataCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fkLogDetalheEvento INT NOT NULL,
     PRIMARY KEY (idIncidente),
